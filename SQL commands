@@ -1,0 +1,36 @@
+-- To determine which stations had their bikes away for long periods of time
+SELECT AVG(duration) AS Duration, start_station_name
+FROM bigquery-public-data.london_bicycles.cycle_hire
+GROUP BY start_station_name 
+ORDER BY Duration DESC LIMIT 100; 
+
+--To look at which stations where bringing bikes back to Stewart's Road (the one with bikes away for longest time)
+SELECT
+  COUNT(start_station_name) AS returns, start_station_name
+FROM
+  `bigquery-public-data.london_bicycles.cycle_hire` 
+WHERE
+  end_station_name = "Stewart's Road, Nine Elms"
+GROUP BY 
+  start_station_name
+ORDER BY
+  COUNT(end_station_name) DESC;
+
+--To look at where the bikes from Stewart's Road where leaving to
+SELECT
+  Count(end_station_name), start_station_name
+FROM
+  `bigquery-public-data.london_bicycles.cycle_hire` 
+WHERE
+  start_station_name = "Stewart's Road, Nine Elms"
+GROUP BY 
+  start_station_name;
+  
+--To extract information about dates used as well as general yearly trend
+SELECT
+  EXTRACT(QUARTER FROM start_date) AS Quarter,
+  start_date,
+  start_station_name
+FROM bigquery-public-data.london_bicycles.cycle_hire
+ORDER BY
+  start_station_name;
