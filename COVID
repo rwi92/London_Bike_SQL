@@ -32,3 +32,14 @@ GROUP BY
   date
 ORDER BY
   date DESC;
+
+--See new cases over time UK
+SELECT
+  new_confirmed AS New_Cases,
+  date,
+FROM
+  bigquery-public-data.covid19_open_data.covid19_open_data
+WHERE
+  country_code = "GB" AND new_confirmed IS NOT NULL
+ORDER BY 
+date DESC;
