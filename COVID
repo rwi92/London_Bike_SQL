@@ -1,0 +1,34 @@
+-- Get countries total cases to date
+SELECT
+  SUM(new_confirmed),
+  country_code
+FROM
+  bigquery-public-data.covid19_open_data_eu.covid19_open_data
+GROUP BY
+  country_code
+LIMIT 1000;
+
+-- To examine cases by the date
+SELECT
+  MAX(cumulative_confirmed) AS Cases,
+  date,
+  country_code
+FROM
+  bigquery-public-data.covid19_open_data.covid19_open_data
+WHERE
+  cumulative_confirmed IS NOT NULL
+GROUP BY
+  date, country_code;
+  
+  -- To further examine UK data
+SELECT
+  MAX(cumulative_confirmed),
+  date,
+FROM
+  bigquery-public-data.covid19_open_data.covid19_open_data
+WHERE
+  country_code = "GB" AND cumulative_confirmed IS NOT NULL
+GROUP BY 
+  date
+ORDER BY
+  date DESC;
